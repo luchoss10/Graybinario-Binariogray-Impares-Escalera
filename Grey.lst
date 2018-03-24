@@ -1,0 +1,314 @@
+CCS PCM C Compiler, Version 5.008, 5967               24-mar.-18 18:35
+
+               Filename:   C:\Users\LuisMiguel\Documents\Parcial Micros 2\Grey.lst
+
+               ROM used:   250 words (3%)
+                           Largest free fragment is 2048
+               RAM used:   10 (3%) at main() level
+                           10 (3%) worst case
+               Stack used: 0 locations
+               Stack size: 8
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   004
+0003:  NOP
+.................... #include <16f887.h>                    
+.................... //////// Standard Header file for the PIC16F887 device //////////////// 
+.................... #device PIC16F887 
+....................  
+.................... #list 
+....................  
+.................... #FUSES NOWDT, NOPUT, INTRC_IO, NOPROTECT, NOBROWNOUT, NOWRT 
+.................... #use delay (internal=8M)                                                                     
+....................  
+.................... int e;                                                                                      
+.................... int1 In0,In1,In2,In3,Out0,Out1,Out2,Out3;// Entradas y salidas. 
+.................... int8 Dato; // dato de salida. 
+....................                                                 
+.................... void main(){ 
+0004:  MOVF   03,W
+0005:  ANDLW  1F
+0006:  MOVWF  03
+0007:  MOVLW  71
+0008:  BSF    03.5
+0009:  MOVWF  0F
+000A:  MOVF   0F,W
+000B:  BSF    03.6
+000C:  MOVF   09,W
+000D:  ANDLW  C0
+000E:  MOVWF  09
+000F:  BCF    03.6
+0010:  BCF    1F.4
+0011:  BCF    1F.5
+0012:  MOVLW  00
+0013:  BSF    03.6
+0014:  MOVWF  08
+0015:  BCF    03.5
+0016:  CLRF   07
+0017:  CLRF   08
+0018:  CLRF   09
+0019:  BCF    03.7
+....................    set_tris_a(0x1F); 
+001A:  MOVLW  1F
+001B:  BSF    03.5
+001C:  BCF    03.6
+001D:  MOVWF  05
+....................    set_tris_d(0x00); 
+001E:  MOVLW  00
+001F:  MOVWF  08
+....................                         
+....................    output_d(0x00); 
+0020:  CLRF   08
+0021:  BCF    03.5
+0022:  CLRF   08
+....................    while(true){ 
+....................       e=input_a(); 
+0023:  MOVLW  FF
+0024:  BSF    03.5
+0025:  MOVWF  05
+0026:  BCF    03.5
+0027:  MOVF   05,W
+0028:  MOVWF  20
+....................       if(bit_test(e,4)==1){                               
+0029:  BTFSS  20.4
+002A:  GOTO   091
+....................          In0=INPUT(PIN_A0); //Leo todos los puertos de entrada individualmente. 
+002B:  BSF    03.5
+002C:  BSF    05.0
+002D:  BCF    03.5
+002E:  BCF    21.0
+002F:  BTFSC  05.0
+0030:  BSF    21.0
+....................          In1=INPUT(PIN_A1); 
+0031:  BSF    03.5
+0032:  BSF    05.1
+0033:  BCF    03.5
+0034:  BCF    21.1
+0035:  BTFSC  05.1
+0036:  BSF    21.1
+....................          In2=INPUT(PIN_A2);                  
+0037:  BSF    03.5
+0038:  BSF    05.2
+0039:  BCF    03.5
+003A:  BCF    21.2
+003B:  BTFSC  05.2
+003C:  BSF    21.2
+....................          In3=INPUT(PIN_A3);  
+003D:  BSF    03.5
+003E:  BSF    05.3
+003F:  BCF    03.5
+0040:  BCF    21.3
+0041:  BTFSC  05.3
+0042:  BSF    21.3
+....................          //Empiezo a hacer las acciones correspondientes para optener el codigo gray 
+....................          Out3=In3; //El ultimo numero de derecha a izquierda se conserva 
+0043:  BCF    21.7
+0044:  BTFSC  21.3
+0045:  BSF    21.7
+....................          Out2=In3^In2; //El  tercer valor de salida corresponde a una XOR entre In3 e In2 
+0046:  MOVLW  00
+0047:  BTFSC  21.3
+0048:  MOVLW  01
+0049:  MOVWF  24
+004A:  MOVLW  00
+004B:  BTFSC  21.2
+004C:  MOVLW  01
+004D:  XORWF  24,W
+004E:  MOVWF  78
+004F:  BCF    21.6
+0050:  BTFSC  78.0
+0051:  BSF    21.6
+....................          Out1=In2^In1; //El  segundo valor de salida corresponde a una XOR entre In2 e In1 
+0052:  MOVLW  00
+0053:  BTFSC  21.2
+0054:  MOVLW  01
+0055:  MOVWF  24
+0056:  MOVLW  00
+0057:  BTFSC  21.1
+0058:  MOVLW  01
+0059:  XORWF  24,W
+005A:  MOVWF  78
+005B:  BCF    21.5
+005C:  BTFSC  78.0
+005D:  BSF    21.5
+....................          Out0=In1^In0; //El primer valor de salida corresponde a una XOR entre In1 e In0 
+005E:  MOVLW  00
+005F:  BTFSC  21.1
+0060:  MOVLW  01
+0061:  MOVWF  24
+0062:  MOVLW  00
+0063:  BTFSC  21.0
+0064:  MOVLW  01
+0065:  XORWF  24,W
+0066:  MOVWF  78
+0067:  BCF    21.4
+0068:  BTFSC  78.0
+0069:  BSF    21.4
+....................          Dato=Out3*8+Out2*4+Out1*2+Out0*1;//Le doy una interpretacion numerica al valor de salida para que sea más facil de mostrar 
+006A:  MOVLW  00
+006B:  BTFSC  21.7
+006C:  MOVLW  01
+006D:  MOVWF  77
+006E:  RLF    77,W
+006F:  MOVWF  23
+0070:  RLF    23,F
+0071:  RLF    23,F
+0072:  MOVLW  F8
+0073:  ANDWF  23,F
+0074:  MOVLW  00
+0075:  BTFSC  21.6
+0076:  MOVLW  01
+0077:  MOVWF  77
+0078:  RLF    77,F
+0079:  RLF    77,F
+007A:  MOVLW  FC
+007B:  ANDWF  77,F
+007C:  MOVF   77,W
+007D:  ADDWF  23,F
+007E:  MOVLW  00
+007F:  BTFSC  21.5
+0080:  MOVLW  01
+0081:  MOVWF  77
+0082:  BCF    03.0
+0083:  RLF    77,F
+0084:  MOVF   77,W
+0085:  ADDWF  23,F
+0086:  MOVLW  00
+0087:  BTFSC  21.4
+0088:  MOVLW  01
+0089:  ADDWF  23,W
+008A:  MOVWF  22
+....................          output_d(Dato); //Muestro el valor obtenido       
+008B:  BSF    03.5
+008C:  CLRF   08
+008D:  BCF    03.5
+008E:  MOVF   22,W
+008F:  MOVWF  08
+....................       }                                    
+0090:  GOTO   0F8
+....................       else if(bit_test(e,4)==0){                       
+0091:  BTFSC  20.4
+0092:  GOTO   0F8
+....................          In0=INPUT(PIN_A0); //Leo todos los puertos de entrada individualmente. 
+0093:  BSF    03.5
+0094:  BSF    05.0
+0095:  BCF    03.5
+0096:  BCF    21.0
+0097:  BTFSC  05.0
+0098:  BSF    21.0
+....................          In1=INPUT(PIN_A1); 
+0099:  BSF    03.5
+009A:  BSF    05.1
+009B:  BCF    03.5
+009C:  BCF    21.1
+009D:  BTFSC  05.1
+009E:  BSF    21.1
+....................          In2=INPUT(PIN_A2);                  
+009F:  BSF    03.5
+00A0:  BSF    05.2
+00A1:  BCF    03.5
+00A2:  BCF    21.2
+00A3:  BTFSC  05.2
+00A4:  BSF    21.2
+....................          In3=INPUT(PIN_A3); 
+00A5:  BSF    03.5
+00A6:  BSF    05.3
+00A7:  BCF    03.5
+00A8:  BCF    21.3
+00A9:  BTFSC  05.3
+00AA:  BSF    21.3
+....................          //Empiezo a hacer las acciones correspondientes para optener el codigo gray 
+....................          Out3=In3; //El ultimo numero de derecha a izquierda se conserva 
+00AB:  BCF    21.7
+00AC:  BTFSC  21.3
+00AD:  BSF    21.7
+....................          Out2=In3^In2; //El  tercer valor de salida corresponde a una XOR entre In3 e In2 
+00AE:  MOVLW  00
+00AF:  BTFSC  21.3
+00B0:  MOVLW  01
+00B1:  MOVWF  24
+00B2:  MOVLW  00
+00B3:  BTFSC  21.2
+00B4:  MOVLW  01
+00B5:  XORWF  24,W
+00B6:  MOVWF  78
+00B7:  BCF    21.6
+00B8:  BTFSC  78.0
+00B9:  BSF    21.6
+....................          Out1=Out2^In1; //El  segundo valor de salida corresponde a una XOR entre In2 e In1 
+00BA:  MOVLW  00
+00BB:  BTFSC  21.6
+00BC:  MOVLW  01
+00BD:  MOVWF  24
+00BE:  MOVLW  00
+00BF:  BTFSC  21.1
+00C0:  MOVLW  01
+00C1:  XORWF  24,W
+00C2:  MOVWF  78
+00C3:  BCF    21.5
+00C4:  BTFSC  78.0
+00C5:  BSF    21.5
+....................          Out0= Out1^In0; //El primer valor de salida corresponde a una XOR entre In1 e In0 
+00C6:  MOVLW  00
+00C7:  BTFSC  21.5
+00C8:  MOVLW  01
+00C9:  MOVWF  24
+00CA:  MOVLW  00
+00CB:  BTFSC  21.0
+00CC:  MOVLW  01
+00CD:  XORWF  24,W
+00CE:  MOVWF  78
+00CF:  BCF    21.4
+00D0:  BTFSC  78.0
+00D1:  BSF    21.4
+....................          Dato=Out3*8+Out2*4+Out1*2+Out0*1;//Le doy una interpretacion numerica al valor de salida para que sea más facil de mostrar 
+00D2:  MOVLW  00
+00D3:  BTFSC  21.7
+00D4:  MOVLW  01
+00D5:  MOVWF  77
+00D6:  RLF    77,W
+00D7:  MOVWF  23
+00D8:  RLF    23,F
+00D9:  RLF    23,F
+00DA:  MOVLW  F8
+00DB:  ANDWF  23,F
+00DC:  MOVLW  00
+00DD:  BTFSC  21.6
+00DE:  MOVLW  01
+00DF:  MOVWF  77
+00E0:  RLF    77,F
+00E1:  RLF    77,F
+00E2:  MOVLW  FC
+00E3:  ANDWF  77,F
+00E4:  MOVF   77,W
+00E5:  ADDWF  23,F
+00E6:  MOVLW  00
+00E7:  BTFSC  21.5
+00E8:  MOVLW  01
+00E9:  MOVWF  77
+00EA:  BCF    03.0
+00EB:  RLF    77,F
+00EC:  MOVF   77,W
+00ED:  ADDWF  23,F
+00EE:  MOVLW  00
+00EF:  BTFSC  21.4
+00F0:  MOVLW  01
+00F1:  ADDWF  23,W
+00F2:  MOVWF  22
+....................          output_d(Dato); //Muestro el valor obtenido                        
+00F3:  BSF    03.5
+00F4:  CLRF   08
+00F5:  BCF    03.5
+00F6:  MOVF   22,W
+00F7:  MOVWF  08
+....................       }                        
+00F8:  GOTO   023
+....................    } 
+.................... }                                                                                          
+00F9:  SLEEP
+
+Configuration Fuses:
+   Word  1: 2CF4   INTRC_IO NOWDT NOPUT MCLR NOPROTECT NOCPD NOBROWNOUT IESO FCMEN NOLVP NODEBUG
+   Word  2: 3FFF   BORV40 NOWRT

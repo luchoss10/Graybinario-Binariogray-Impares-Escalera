@@ -1,0 +1,97 @@
+004-005 @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+015     CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B     CCP_2_LOW
+01B     CCP_2
+01C     CCP_2_HIGH
+021     MAIN.i
+022     lcd_init.i
+022     @PRINTF_U_644.P1
+022     MAIN.@SCRATCH1
+022     @PSTRINGC7_644.@SCRATCH1
+023     @PRINTF_U_644.P1
+023     lcd_init.@SCRATCH1
+023     @PSTRINGC7_644.@SCRATCH2
+024     @DIV88.P1
+024     @PSTRINGC7_644.@SCRATCH3
+025     @DIV88.P1
+025     @PSTRINGC7_644.@SCRATCH4
+026     lcd_putc.c
+026     @DIV88.@SCRATCH1
+027     lcd_gotoxy.x
+027     @delay_ms1.P1
+028     lcd_gotoxy.y
+029     lcd_gotoxy.address
+02A     lcd_gotoxy.@SCRATCH1
+02B     lcd_send_byte.address
+02C     lcd_send_byte.n
+02D     lcd_read_byte.low
+02D     lcd_send_byte.@SCRATCH1
+02E     lcd_send_nibble.n
+02E     lcd_read_byte.high
+02F     lcd_read_nibble.n
+02F     lcd_read_byte.@SCRATCH1
+030     lcd_read_nibble.@SCRATCH1
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+107.6   C1OUT
+108.6   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+000004  LCD_INIT_STRING.call
+000008  LCD_INIT_STRING.data
+00000C  @const659.call
+000011  @delay_ms1
+000025  lcd_send_nibble
+000051  lcd_read_nibble
+000082  lcd_send_byte
+00008A  lcd_read_byte
+0000DE  lcd_init
+00011B  lcd_gotoxy
+00012D  lcd_putc
+000159  @PSTRINGC7_644
+0001A6  @DIV88
+0001BB  @PRINTF_U_644
+0001F2  MAIN
+0001F2  @cinit1
+000207  @cinit2
+
+Project Directory:
+    C:\Users\LuisMiguel\Documents\Parcial Micros 2\
+
+Project Files:
+    Impares.c                                               [24-mar.-18 18:09  CRC=C8035698]
+    ..\..\..\..\Program Files (x86)\PICC\Devices\16f887.h   [03-jul.-13 14:28  CRC=9FD133B5]
+    ..\..\..\..\Program Files (x86)\PICC\Drivers\lcd.c      [23-ago.-12 09:01  CRC=D28E8746]
+
+Source signature=0CF198D9
+
+Units:
+    Impares (main)
+
+Compiler Settings:
+    Processor:      PIC16F887
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    XREF file:   Impares.xsym
+    Errors:      Impares.err
+    Ext Symbols: Impares.esym
+    INHX8:       Impares.hex
+    Symbols:     Impares.sym
+    List:        Impares.lst
+    Debug/COFF:  Impares.cof
+    Project:     Impares.ccspjt
+    Call Tree:   Impares.tre
+    Statistics:  Impares.STA

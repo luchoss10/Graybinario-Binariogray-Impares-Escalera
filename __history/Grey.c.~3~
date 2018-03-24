@@ -1,0 +1,19 @@
+#include <16f887.h>                   
+#FUSES NOWDT, NOPUT, INTRC_IO, NOPROTECT, NOBROWNOUT, NOWRT
+#use delay (internal=8M)
+
+int e, var1, var2;
+
+void main(){
+   set_tris_a(0x1F);
+   set_tris_b(0x00);
+   
+   while(true){
+      e=input_a();
+      if(bit_test(e,4)==1){
+      for(int i=3;;i>1-,i--)
+         bit_set(var1,i-1)=bit_test(e,i);
+      }
+   
+   }
+}

@@ -1,0 +1,125 @@
+CCS PCM C Compiler, Version 5.008, 5967               24-mar.-18 17:24
+
+               Filename:   C:\Users\LuisMiguel\Documents\Parcial Micros 2\Escalera.lst
+
+               ROM used:   83 words (1%)
+                           Largest free fragment is 2048
+               RAM used:   8 (2%) at main() level
+                           9 (2%) worst case
+               Stack used: 1 locations
+               Stack size: 8
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   01A
+0003:  NOP
+.................... #include <16f887.h>                    
+.................... //////// Standard Header file for the PIC16F887 device //////////////// 
+.................... #device PIC16F887 
+....................  
+.................... #list 
+....................  
+.................... #FUSES NOWDT, NOPUT, INTRC_IO, NOPROTECT, NOBROWNOUT, NOWRT 
+.................... #use delay (internal=8M) 
+0004:  MOVLW  23
+0005:  MOVWF  04
+0006:  BCF    03.7
+0007:  MOVF   00,W
+0008:  BTFSC  03.2
+0009:  GOTO   017
+000A:  MOVLW  02
+000B:  MOVWF  78
+000C:  CLRF   77
+000D:  DECFSZ 77,F
+000E:  GOTO   00D
+000F:  DECFSZ 78,F
+0010:  GOTO   00C
+0011:  MOVLW  97
+0012:  MOVWF  77
+0013:  DECFSZ 77,F
+0014:  GOTO   013
+0015:  DECFSZ 00,F
+0016:  GOTO   00A
+0017:  BCF    0A.3
+0018:  BCF    0A.4
+0019:  GOTO   048 (RETURN)
+....................  
+.................... int var1=0, i =1; 
+.................... void main(){ 
+001A:  MOVF   03,W
+001B:  ANDLW  1F
+001C:  MOVWF  03
+001D:  MOVLW  71
+001E:  BSF    03.5
+001F:  MOVWF  0F
+0020:  MOVF   0F,W
+0021:  BCF    03.5
+0022:  CLRF   20
+0023:  MOVLW  01
+0024:  MOVWF  21
+0025:  BSF    03.5
+0026:  BSF    03.6
+0027:  MOVF   09,W
+0028:  ANDLW  C0
+0029:  MOVWF  09
+002A:  BCF    03.6
+002B:  BCF    1F.4
+002C:  BCF    1F.5
+002D:  MOVLW  00
+002E:  BSF    03.6
+002F:  MOVWF  08
+0030:  BCF    03.5
+0031:  CLRF   07
+0032:  CLRF   08
+0033:  CLRF   09
+0034:  BCF    03.7
+....................    set_tris_d(0x00); 
+0035:  MOVLW  00
+0036:  BSF    03.5
+0037:  BCF    03.6
+0038:  MOVWF  08
+....................    output_d(0); 
+0039:  CLRF   08
+003A:  BCF    03.5
+003B:  CLRF   08
+....................     
+....................    while(true){ 
+....................          var1=(var1+i); 
+003C:  MOVF   21,W
+003D:  ADDWF  20,F
+....................          output_d(var1); 
+003E:  BSF    03.5
+003F:  CLRF   08
+0040:  BCF    03.5
+0041:  MOVF   20,W
+0042:  MOVWF  08
+....................          delay_ms(500); 
+0043:  MOVLW  02
+0044:  MOVWF  22
+0045:  MOVLW  FA
+0046:  MOVWF  23
+0047:  GOTO   004
+0048:  DECFSZ 22,F
+0049:  GOTO   045
+....................          i=i*2; 
+004A:  BCF    03.0
+004B:  RLF    21,F
+....................          if(var1==255){ 
+004C:  INCFSZ 20,W
+004D:  GOTO   051
+....................             i=1; 
+004E:  MOVLW  01
+004F:  MOVWF  21
+....................             var1=0; 
+0050:  CLRF   20
+....................          } 
+0051:  GOTO   03C
+....................    } 
+....................  
+.................... } 
+0052:  SLEEP
+
+Configuration Fuses:
+   Word  1: 2CF4   INTRC_IO NOWDT NOPUT MCLR NOPROTECT NOCPD NOBROWNOUT IESO FCMEN NOLVP NODEBUG
+   Word  2: 3FFF   BORV40 NOWRT

@@ -1,0 +1,21 @@
+[PROJECT]
+Target=Escalera.hex
+Processor_Text=PIC16F887
+CCSVersion=5.008
+Compiler=PCM
+[Target Data]
+FileList=Escalera.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
+[Escalera.c]
+Type=4
+[mru-list]
+1=Escalera.c
+[Opened Files]
+1=Impares.c
+2=Escalera.c
+3=Grey.c
+4=
+[Units]
+Count=1
+1=Escalera (main)
